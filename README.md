@@ -9,6 +9,10 @@ L’Oréal is exploring the power of AI, and your job is to showcase what's poss
 
 ## ☁️ Cloudflare Note
 
+The frontend sends every chatbot request to the Cloudflare Worker, not directly to OpenAI. That keeps the OpenAI API key hidden in the Worker as `env.OPENAI_API_KEY`.
+
 When deploying through Cloudflare, make sure your API request body (in `script.js`) includes a `messages` array and handle the response by extracting `data.choices[0].message.content`.
+
+Use the Worker URL in `script.js` for the `fetch()` request, and keep the OpenAI call inside `RESOURCE_cloudflare-worker.js`.
 
 Enjoy building your L’Oréal beauty assistant! 💄

@@ -4,6 +4,7 @@ const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 
 /* Chatbot configuration */
+/* All chatbot requests go to the Cloudflare Worker so the OpenAI key stays server-side. */
 const workerUrl = "https://resourcecloudflare-worker.jason01.workers.dev/";
 const systemPrompt =
   "You are a friendly L'Oréal beauty assistant. Only answer questions about L'Oréal products, routines, ingredients, and beauty recommendations. If the user asks about anything unrelated, politely refuse and say you can only help with L'Oréal products and routines. Keep responses clear, warm, and practical.";
