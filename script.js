@@ -4,7 +4,7 @@ const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 
 /* Chatbot configuration */
-const workerUrl = "https://loreal-chatbot.your-subdomain.workers.dev/";
+const workerUrl = "https://resourcecloudflare-worker.jason01.workers.dev/";
 const systemPrompt =
   "You are a friendly L'Oréal beauty assistant. Help users discover makeup, skincare, haircare, and fragrance products. Ask short follow-up questions when needed, and keep recommendations clear, warm, and practical.";
 
