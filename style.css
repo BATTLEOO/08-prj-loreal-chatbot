@@ -8,41 +8,86 @@
 /* —— body + fonts —— */
 body {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  color: #1a1a1a;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  background:
+    radial-gradient(circle at top, rgba(191, 164, 87, 0.18), transparent 34%),
+    linear-gradient(180deg, #f7f3ec 0%, #ffffff 40%, #f2eee7 100%);
 }
 
 .page-wrapper {
-  width: 90%;
-  max-width: 900px;
+  width: min(92%, 960px);
 }
 
 /* header */
 .site-header {
   text-align: center;
-  padding-top: 50px;
+  padding: 48px 0 18px;
+}
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 28px;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 40px rgba(26, 26, 26, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.brand-logo {
+  display: block;
+  width: 104px;
+  height: auto;
+}
+
+.brand-copy {
+  text-align: left;
+}
+
+.brand-eyebrow {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #bfa457;
 }
 
 .site-title {
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: #111111;
+  line-height: 1.05;
+}
+
+.site-subtitle {
+  max-width: 620px;
+  margin: 18px auto 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #5f5a52;
 }
 
 /* chat window */
 .chatbox {
-  margin: 40px 0;
+  margin: 34px 0;
 }
 
 .chat-window {
-  height: 360px;
-  border: 1px solid #000;
-  padding: 20px;
+  min-height: 380px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 28px;
+  padding: 24px;
   font-size: 18px;
   line-height: 1.5;
   overflow-y: auto;
-  background: #fafafa;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), #f7f4ee);
+  box-shadow: 0 24px 55px rgba(26, 26, 26, 0.08);
   white-space: pre-line;
 }
 
@@ -53,11 +98,11 @@ body {
 }
 
 .msg.user {
-  color: #000;
+  color: #111111;
 }
 
 .msg.ai {
-  color: #666666;
+  color: #5f5a52;
 }
 
 /* input row */
@@ -69,29 +114,35 @@ body {
 
 .chat-form input {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
+  padding: 14px 16px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 16px;
   font-size: 18px;
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .chat-form input:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #bfa457;
   outline-offset: 2px;
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
-  color: #fff;
+  background: linear-gradient(135deg, #111111 0%, #353535 100%);
+  color: #ffffff;
   border: none;
-  padding: 12px;
-  width: 48px;
-  height: 48px;
+  padding: 12px 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 0 12px 24px rgba(17, 17, 17, 0.16);
+  transition:
+    transform 0.2s ease,
+    background 0.3s;
 }
 
 .chat-form button .material-icons {
@@ -99,11 +150,12 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #bfa457 0%, #a98b3f 100%);
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #bfa457;
   outline-offset: 2px;
 }
 
@@ -125,7 +177,7 @@ body {
   margin: 60px 0 40px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: #6a6256;
 }
 
 .site-footer nav {
@@ -134,10 +186,35 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #111111;
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: #bfa457;
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding-top: 28px;
+  }
+
+  .brand-lockup {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .brand-copy {
+    text-align: center;
+  }
+
+  .chat-form {
+    flex-direction: column;
+  }
+
+  .chat-form button {
+    width: 100%;
+  }
 }
