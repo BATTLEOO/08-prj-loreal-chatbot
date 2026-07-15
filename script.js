@@ -3,16 +3,70 @@ const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 
-// Set initial message
-chatWindow.textContent = "👋 Hello! How can I help you today?";
+/* Chatbot configuration */
+const workerUrl = "https://loreal-chatbot.your-subdomain.workers.dev/";
+const systemPrompt =
+  "You are a friendly L'Oréal beauty assistant. Help users discover makeup, skincare, haircare, and fragrance products. Ask short follow-up questions when needed, and keep recommendations clear, warm, and practical.";
+
+/* Show the opening message */
+appendMessage(
+  "assistant",
+  "Hello! Ask me about products, routines, or recommendations.",
+);
+
+function appendMessage(role, text) {
+  const message = document.createElement("div");
+  message.className = `msg ${role}`;
+  message.textContent = text;
+  chatWindow.appendChild(message);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
 
 /* Handle form submit */
-chatForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+chatForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-  // When using Cloudflare, you'll need to POST a `messages` array in the body,
-  // and handle the response using: data.choices[0].message.content
+  const userMessage = userInput.value.trim();
 
-  // Show message
-  chatWindow.innerHTML = "Connect to the OpenAI API for a response!";
+  if (!userMessage) {
+    return;
+  }
+
+  appendMessage("user", userMessage);
+  userInput.value = "";
+  userInput.focus();
+
+  try {
+    const response = await fetch(workerUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage },
+        ],
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.error?.message || "Something went wrong.");
+    }
+
+    const assistantReply = data?.choices?.[0]?.message?.content;
+
+    if (!assistantReply) {
+      throw new Error("No assistant response was returned.");
+    }
+
+    appendMessage("ai", assistantReply);
+  } catch (error) {
+    appendMessage(
+      "ai",
+      `Sorry, I could not get a response right now. ${error.message}`,
+    );
+  }
 });
