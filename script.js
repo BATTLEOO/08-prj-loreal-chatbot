@@ -8,6 +8,14 @@ const chatWindow = document.getElementById("chatWindow");
 const workerUrl = "https://resourcecloudflare-worker.jason01.workers.dev/";
 const systemPrompt =
   "You are a friendly L'Oréal beauty assistant. Only answer questions about L'Oréal products, routines, ingredients, and beauty recommendations. If the user asks about anything unrelated, politely refuse and say you can only help with L'Oréal products and routines. Keep responses clear, warm, and practical.";
+const chatHistory = [
+  { role: "system", content: systemPrompt },
+  {
+    role: "assistant",
+    content:
+      "Hello! Ask me about L'Oréal products, routines, or recommendations.",
+  },
+];
 
 /* Show the opening message */
 appendMessage(
@@ -34,6 +42,7 @@ chatForm.addEventListener("submit", async (event) => {
   }
 
   appendMessage("user", userMessage);
+  chatHistory.push({ role: "user", content: userMessage });
   userInput.value = "";
   userInput.focus();
 
@@ -44,10 +53,7 @@ chatForm.addEventListener("submit", async (event) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userMessage },
-        ],
+        messages: chatHistory,
       }),
     });
 
@@ -64,6 +70,7 @@ chatForm.addEventListener("submit", async (event) => {
     }
 
     appendMessage("ai", assistantReply);
+    chatHistory.push({ role: "assistant", content: assistantReply });
   } catch (error) {
     appendMessage(
       "ai",
