@@ -6,12 +6,12 @@ const chatWindow = document.getElementById("chatWindow");
 /* Chatbot configuration */
 const workerUrl = "https://resourcecloudflare-worker.jason01.workers.dev/";
 const systemPrompt =
-  "You are a friendly L'Oréal beauty assistant. Help users discover makeup, skincare, haircare, and fragrance products. Ask short follow-up questions when needed, and keep recommendations clear, warm, and practical.";
+  "You are a friendly L'Oréal beauty assistant. Only answer questions about L'Oréal products, routines, ingredients, and beauty recommendations. If the user asks about anything unrelated, politely refuse and say you can only help with L'Oréal products and routines. Keep responses clear, warm, and practical.";
 
 /* Show the opening message */
 appendMessage(
   "assistant",
-  "Hello! Ask me about products, routines, or recommendations.",
+  "Hello! Ask me about L'Oréal products, routines, or recommendations.",
 );
 
 function appendMessage(role, text) {
