@@ -18,51 +18,26 @@ const chatHistory = [
 ];
 
 /* Show the opening message */
-renderExchange(
+appendChatMessage(
+  "assistant",
   "Hello! Ask me about L'Oréal products, routines, or recommendations.",
-  "",
-  true,
 );
 
-function appendMessage(role, text) {
-  const message = document.createElement("div");
-  message.className = `msg ${role}`;
-  message.textContent = text;
-  chatWindow.appendChild(message);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-}
+function appendChatMessage(role, text) {
+  const turn = document.createElement("div");
+  turn.className = `chat-turn ${role}`;
 
-function renderExchange(userQuestion, assistantReply, isGreeting = false) {
-  chatWindow.innerHTML = "";
+  const label = document.createElement("div");
+  label.className = "chat-label";
+  label.textContent = role === "user" ? "You" : "L'Oréal Assistant";
+  turn.appendChild(label);
 
-  const exchange = document.createElement("div");
-  exchange.className = "exchange";
+  const bubble = document.createElement("div");
+  bubble.className = `chat-bubble ${role}`;
+  bubble.textContent = text;
+  turn.appendChild(bubble);
 
-  if (!isGreeting) {
-    const questionLabel = document.createElement("div");
-    questionLabel.className = "exchange-label";
-    questionLabel.textContent = "You asked";
-    exchange.appendChild(questionLabel);
-  }
-
-  const questionText = document.createElement("div");
-  questionText.className = "exchange-question";
-  questionText.textContent = userQuestion;
-  exchange.appendChild(questionText);
-
-  if (assistantReply) {
-    const answerLabel = document.createElement("div");
-    answerLabel.className = "exchange-label exchange-label-answer";
-    answerLabel.textContent = "L'Oréal Assistant";
-    exchange.appendChild(answerLabel);
-
-    const answerText = document.createElement("div");
-    answerText.className = "exchange-answer";
-    answerText.textContent = assistantReply;
-    exchange.appendChild(answerText);
-  }
-
-  chatWindow.appendChild(exchange);
+  chatWindow.appendChild(turn);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
@@ -76,6 +51,7 @@ chatForm.addEventListener("submit", async (event) => {
     return;
   }
 
+  appendChatMessage("user", userMessage);
   chatHistory.push({ role: "user", content: userMessage });
   userInput.value = "";
   userInput.focus();
@@ -103,11 +79,11 @@ chatForm.addEventListener("submit", async (event) => {
       throw new Error("No assistant response was returned.");
     }
 
-    renderExchange(userMessage, assistantReply);
+    appendChatMessage("assistant", assistantReply);
     chatHistory.push({ role: "assistant", content: assistantReply });
   } catch (error) {
-    renderExchange(
-      userMessage,
+    appendChatMessage(
+      "assistant",
       `Sorry, I could not get a response right now. ${error.message}`,
     );
   }
