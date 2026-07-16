@@ -97,6 +97,36 @@ body {
   line-height: 1.5;
 }
 
+.exchange {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exchange-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bfa457;
+}
+
+.exchange-question,
+.exchange-answer {
+  line-height: 1.6;
+}
+
+.exchange-question {
+  font-size: 18px;
+  color: #111111;
+  font-weight: 500;
+}
+
+.exchange-answer {
+  font-size: 18px;
+  color: #5f5a52;
+}
+
 .msg.user {
   color: #111111;
 }

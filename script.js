@@ -18,9 +18,10 @@ const chatHistory = [
 ];
 
 /* Show the opening message */
-appendMessage(
-  "assistant",
+renderExchange(
   "Hello! Ask me about L'Oréal products, routines, or recommendations.",
+  "",
+  true,
 );
 
 function appendMessage(role, text) {
@@ -28,6 +29,40 @@ function appendMessage(role, text) {
   message.className = `msg ${role}`;
   message.textContent = text;
   chatWindow.appendChild(message);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function renderExchange(userQuestion, assistantReply, isGreeting = false) {
+  chatWindow.innerHTML = "";
+
+  const exchange = document.createElement("div");
+  exchange.className = "exchange";
+
+  if (!isGreeting) {
+    const questionLabel = document.createElement("div");
+    questionLabel.className = "exchange-label";
+    questionLabel.textContent = "You asked";
+    exchange.appendChild(questionLabel);
+  }
+
+  const questionText = document.createElement("div");
+  questionText.className = "exchange-question";
+  questionText.textContent = userQuestion;
+  exchange.appendChild(questionText);
+
+  if (assistantReply) {
+    const answerLabel = document.createElement("div");
+    answerLabel.className = "exchange-label exchange-label-answer";
+    answerLabel.textContent = "L'Oréal Assistant";
+    exchange.appendChild(answerLabel);
+
+    const answerText = document.createElement("div");
+    answerText.className = "exchange-answer";
+    answerText.textContent = assistantReply;
+    exchange.appendChild(answerText);
+  }
+
+  chatWindow.appendChild(exchange);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
@@ -41,7 +76,6 @@ chatForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  appendMessage("user", userMessage);
   chatHistory.push({ role: "user", content: userMessage });
   userInput.value = "";
   userInput.focus();
@@ -69,11 +103,11 @@ chatForm.addEventListener("submit", async (event) => {
       throw new Error("No assistant response was returned.");
     }
 
-    appendMessage("ai", assistantReply);
+    renderExchange(userMessage, assistantReply);
     chatHistory.push({ role: "assistant", content: assistantReply });
   } catch (error) {
-    appendMessage(
-      "ai",
+    renderExchange(
+      userMessage,
       `Sorry, I could not get a response right now. ${error.message}`,
     );
   }
